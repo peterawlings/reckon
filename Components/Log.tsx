@@ -1,5 +1,5 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Box, Button, Flex, Heading, List } from "@chakra-ui/react";
+import { FunctionComponent } from "react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import LogListItem from "./LogListItem";
 import { LogComponent } from "../types";
 
