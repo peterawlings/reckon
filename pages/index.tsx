@@ -12,15 +12,6 @@ const Home: NextPage = () => {
   const [logData, setLogData] = useState<StocksData>([]);
   const [logPaused, setLogPaused] = useState(false);
 
-  const fetchData = async () => {
-    return await fetch("https://join.reckon.com/stock-pricing")
-      .then((res) => res.json())
-
-      .catch((e) => {
-        console.log("Response Error", e);
-      });
-  };
-
   const validate = (data: StockItemDataArray) =>
     data?.every(
       (dataItem) =>
@@ -28,19 +19,26 @@ const Home: NextPage = () => {
     );
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData().then((newData: StockItemDataArray) => {
-        console.log("newData", newData);
-        const dataWithTimeStamp = {
-          timeStamp: format(new Date(), "MM/dd/yyyy hh:mm:ss"),
-          data: validate(newData) ? newData : null,
-        };
+    const fetchData = async () => {
+      return await fetch("https://join.reckon.com/stock-pricing")
+        .then((res) => res.json())
+        .then((newData: StockItemDataArray) => {
+          const dataWithTimeStamp = {
+            timeStamp: format(new Date(), "MM/dd/yyyy hh:mm:ss"),
+            data: validate(newData) ? newData : null,
+          };
 
-        if (!logPaused) {
-          setLogData([dataWithTimeStamp, ...logData] as StocksData);
-        }
-        setData([dataWithTimeStamp, ...data] as StocksData);
-      });
+          if (!logPaused) {
+            setLogData([dataWithTimeStamp, ...logData] as StocksData);
+          }
+          setData([dataWithTimeStamp, ...data] as StocksData);
+        })
+        .catch((e) => {
+          console.log("Response Error", e);
+        });
+    };
+    const interval = setInterval(() => {
+      fetchData();
     }, 2000);
 
     return () => clearInterval(interval);
@@ -51,7 +49,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <Container maxW="1500" maxH="100vh" mt={10} mb={10}>
+    <Container maxW="1500" mt={10} mb={10}>
       <SimpleGrid minH="100vh" columns={[1, 2]} spacing={10}>
         <Box>
           <Log data={logData} changePause={changePause} logPaused={logPaused} />
