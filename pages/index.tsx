@@ -14,7 +14,6 @@ const Home: NextPage = () => {
 
   const fetchData = async () => {
     return await fetch("https://join.reckon.com/stock-pricing")
-      // return await fetch("https://jsonplaceholder.typicode.com/posts?_limit=3")
       .then((res) => res.json())
 
       .catch((e) => {
@@ -22,13 +21,19 @@ const Home: NextPage = () => {
       });
   };
 
+  const validate = (data: StockItemDataArray) =>
+    data?.every(
+      (dataItem) =>
+        typeof dataItem.code === "string" && typeof dataItem.price === "number"
+    );
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData().then((newData: StockItemDataArray) => {
         console.log("newData", newData);
         const dataWithTimeStamp = {
           timeStamp: format(new Date(), "MM/dd/yyyy hh:mm:ss"),
-          data: newData,
+          data: validate(newData) ? newData : null,
         };
 
         if (!logPaused) {
@@ -40,6 +45,11 @@ const Home: NextPage = () => {
 
     return () => clearInterval(interval);
   }, [data, logPaused, logData]);
+
+  function changePause() {
+    setLogPaused(!logPaused);
+  }
+
   return (
     <Container maxW="1500" maxH="100vh" mt={10} mb={10}>
       <SimpleGrid minH="100vh" columns={[1, 2]} spacing={10}>
