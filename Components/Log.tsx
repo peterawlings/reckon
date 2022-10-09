@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import LogListItem from "./LogListItem";
 import { LogComponent } from "../types";
 
@@ -21,16 +21,20 @@ const Log: FunctionComponent<LogComponent> = ({
         borderColor="gray.200"
         p={3}
         borderRadius={7}
-        height="100vh"
         overflow="auto"
       >
-        {data?.reverse().map((stockItem) => (
-          <>
-            {stockItem.data && (
-              <LogListItem key={stockItem.timeStamp} stockItem={stockItem} />
-            )}
-          </>
-        ))}
+        {data.length ? (
+          data
+            .reverse()
+            .map((stockItem, i) => (
+              <LogListItem
+                key={stockItem.timeStamp + i}
+                stockItem={stockItem}
+              />
+            ))
+        ) : (
+          <Text textAlign="center">No Data</Text>
+        )}
       </Box>
     </>
   );

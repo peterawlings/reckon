@@ -7,6 +7,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -40,34 +41,37 @@ const Summary: FunctionComponent<SummaryComponent> = ({ data }) => {
         <Heading mb={3}>Summary</Heading>
       </Flex>
       <Box border="1px" borderColor="gray.200" p={3} borderRadius={7}>
-        <TableContainer>
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th isNumeric>Stock</Th>
-                <Th isNumeric>Starting</Th>
-                <Th isNumeric>Lowest</Th>
-                <Th isNumeric>Highest</Th>
-                <Th isNumeric>Current</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {codeList?.map((item) => {
-                const stockStat = sortData(item);
-                console.log({ stockStat });
-                return (
-                  <Tr key={stockStat.code}>
-                    <Td isNumeric>{stockStat.code}</Td>
-                    <Td isNumeric>{stockStat.startingPrice}</Td>
-                    <Td isNumeric>{stockStat.lowestPrice}</Td>
-                    <Td isNumeric>{stockStat.highestPrice}</Td>
-                    <Td isNumeric>{stockStat.current}</Td>
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        {data.length ? (
+          <TableContainer>
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th isNumeric>Stock</Th>
+                  <Th isNumeric>Starting</Th>
+                  <Th isNumeric>Lowest</Th>
+                  <Th isNumeric>Highest</Th>
+                  <Th isNumeric>Current</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {codeList?.map((item) => {
+                  const stockStat = sortData(item);
+                  return (
+                    <Tr key={stockStat.code}>
+                      <Td isNumeric>{stockStat.code}</Td>
+                      <Td isNumeric>{stockStat.startingPrice}</Td>
+                      <Td isNumeric>{stockStat.lowestPrice}</Td>
+                      <Td isNumeric>{stockStat.highestPrice}</Td>
+                      <Td isNumeric>{stockStat.current}</Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Text textAlign="center">No Data</Text>
+        )}
       </Box>
     </>
   );
