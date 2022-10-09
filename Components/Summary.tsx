@@ -14,6 +14,26 @@ import {
 import { SummaryComponent } from "../types";
 
 const Summary: FunctionComponent<SummaryComponent> = ({ data }) => {
+  const sortData = (code: string) => {
+    const pricesArray = data.map(
+      (stockItem) =>
+        stockItem.data?.find((stockItem) => stockItem.code === code)?.price
+    );
+    return {
+      code,
+      startingPrice: pricesArray[pricesArray.length - 1],
+      lowestPrice: [...pricesArray].sort(
+        (a, b) => (a as number) - (b as number)
+      )[0],
+      highestPrice: [...pricesArray].sort(
+        (a, b) => (b as number) - (a as number)
+      )[0],
+      current: pricesArray[0],
+    };
+  };
+
+  const codeList = data[0]?.data?.map((stockItem) => stockItem.code);
+
   return (
     <>
       <Flex justifyContent="space-between">
@@ -32,13 +52,19 @@ const Summary: FunctionComponent<SummaryComponent> = ({ data }) => {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr>
-                <Td isNumeric>item</Td>
-                <Td isNumeric>item</Td>
-                <Td isNumeric>item</Td>
-                <Td isNumeric>item</Td>
-                <Td isNumeric>item</Td>
-              </Tr>
+              {codeList?.map((item) => {
+                const stockStat = sortData(item);
+                console.log({ stockStat });
+                return (
+                  <Tr key={stockStat.code}>
+                    <Td isNumeric>{stockStat.code}</Td>
+                    <Td isNumeric>{stockStat.startingPrice}</Td>
+                    <Td isNumeric>{stockStat.lowestPrice}</Td>
+                    <Td isNumeric>{stockStat.highestPrice}</Td>
+                    <Td isNumeric>{stockStat.current}</Td>
+                  </Tr>
+                );
+              })}
             </Tbody>
           </Table>
         </TableContainer>
