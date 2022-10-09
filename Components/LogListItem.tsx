@@ -12,7 +12,9 @@ const LogListItem: FunctionComponent<LogListItem> = ({ stockItem }) => {
         {data?.map((stock) => {
           return (
             <ListItem role="listitem" key={stock.code}>
-              <Text fontSize="md">{`${stock.code}: ${stock.price}`}</Text>
+              <Text fontSize="md">{`${stock.code}: ${stock.price.toFixed(
+                2
+              )}`}</Text>
             </ListItem>
           );
         })}

@@ -59,10 +59,10 @@ const Summary: FunctionComponent<SummaryComponent> = ({ data }) => {
                   return (
                     <Tr key={stockStat.code}>
                       <Td isNumeric>{stockStat.code}</Td>
-                      <Td isNumeric>{stockStat.startingPrice}</Td>
-                      <Td isNumeric>{stockStat.lowestPrice}</Td>
-                      <Td isNumeric>{stockStat.highestPrice}</Td>
-                      <Td isNumeric>{stockStat.current}</Td>
+                      <Td isNumeric>{stockStat.startingPrice?.toFixed(2)}</Td>
+                      <Td isNumeric>{stockStat.lowestPrice?.toFixed(2)}</Td>
+                      <Td isNumeric>{stockStat.highestPrice?.toFixed(2)}</Td>
+                      <Td isNumeric>{stockStat.current?.toFixed(2)}</Td>
                     </Tr>
                   );
                 })}
