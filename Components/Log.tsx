@@ -22,6 +22,7 @@ const Log: FunctionComponent<LogComponent> = ({
         p={3}
         borderRadius={7}
         overflow="auto"
+        height="calc(100vh - 130px)"
       >
         {data.length ? (
           data

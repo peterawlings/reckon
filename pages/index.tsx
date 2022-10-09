@@ -50,7 +50,7 @@ const Home: NextPage = () => {
 
   return (
     <Container maxW="1500" mt={10} mb={10}>
-      <SimpleGrid minH="100vh" columns={[1, 2]} spacing={10}>
+      <SimpleGrid columns={[1, null, 2]} spacing={10}>
         <Box>
           <Log data={logData} changePause={changePause} logPaused={logPaused} />
         </Box>
